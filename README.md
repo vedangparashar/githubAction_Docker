@@ -18,3 +18,4 @@ This project demonstrates Continuous Delivery of a Dockerized FastAPI applicatio
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
+   ```
