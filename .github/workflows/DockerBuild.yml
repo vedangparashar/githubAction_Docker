@@ -1,0 +1,29 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Debug Info
+      run: |
+        echo "Running on: ${{ github.ref }}"
+        echo "Event: ${{ github.event_name }}"
+    
+    - name: Login to Docker Hub
+      run: |
+        echo "${{ secrets.DOCKERTOKEN }}" | docker login \
+          -u "${{ secrets.DOCKERHUB_USERNAME }}" \
+          --password-stdin
+      
+    - name: Build and Push
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-demo .
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-demo
